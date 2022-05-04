@@ -35,7 +35,6 @@ class PostsController < ApplicationController
     end
   end
   
-
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
@@ -48,3 +47,4 @@ class PostsController < ApplicationController
       params.require(:post).permit(:description, :image)
     end
 end
+
