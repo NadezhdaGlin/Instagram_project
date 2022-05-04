@@ -12,4 +12,26 @@
 	</p>
 </li>
 
+<h1> Comments </h1>
+<% @post.comments.each do |comment| %>
+	<p>
+		<strong> Commenter </strong>
+		<%= comment.body %>
+	</p>
+
+<% end %>
+
+<h1> Leave a comment</h1>
+
+<%= form_with model: [@post, @post.comments.build] do |form| %>
+	<p>
+		<%= form.text_area :body %>
+	</p>
+
+	<p>
+		<%= form.submit %>
+	</p>
+
+<% end %>
+
 <%= link_to "Back", posts_path%>
