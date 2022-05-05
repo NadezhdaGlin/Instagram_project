@@ -12,14 +12,24 @@
 	</p>
 </li>
 
-<h1> Comments </h1>
-<% @post.comments.each do |comment| %>
-	<p>
-		<strong> Commenter </strong>
-		<%= comment.body %>
-	</p>
 
-<% end %>
+<h1> Comments </h1>
+<ul>
+	<% @post.comments.each do |comment| %>
+		<li>
+			<p>
+				<strong> Commenter </strong>
+				<%= comment.body %>
+			</p>
+		</li>
+
+		<p>	
+			<%= button_to "Destroy comment",[comment.post, comment], method: :delete,
+				data: {confirm: "are you sure?" }%>
+		</p>
+	<% end %>
+</ul>
+
 
 <h1> Leave a comment</h1>
 
@@ -31,7 +41,6 @@
 	<p>
 		<%= form.submit %>
 	</p>
-
 <% end %>
 
 <%= link_to "Back", posts_path%>
