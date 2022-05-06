@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
+
   def index
     @posts = Post.all
   end
@@ -12,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(post_params.merge(user: current_user))
 
     if @post.save
       redirect_to @post
@@ -28,7 +30,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
 
-    if @post.update(post_params)
+    if @post.update(post_params.merge(user: current_user))
       redirect_to @post
     else
       render :edit, status: :unprocessable_entity
