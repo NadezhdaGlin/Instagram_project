@@ -1,4 +1,13 @@
+<% if user_signed_in? %>
+  <%= button_to "SIGN OUT", destroy_user_session_path, method: :delete%>
+    <%else%>
+      <p>
+        <%= link_to "LOG IN", new_user_session_path%>
+        <%= link_to "SIGN UP", new_user_registration_path%>
+    </p>
+<% end %>
 <h1>Posts</h1>
+
 
 <ul>
   <% @posts.each do |post| %>
@@ -11,5 +20,6 @@
     </p>
   <% end %>
 </ul>
+
 
 <%= link_to "Add new post", new_post_path %>
