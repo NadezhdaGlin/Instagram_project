@@ -2,18 +2,14 @@
 
 <ul>
   <% @posts.each do |post| %>
+    <p>
+      <%= link_to (image_tag(post.image_url(:thumb)) if post.image?),post %>
+    </p>
 
-      <p>
-        <%= link_to (image_tag(post.image_url(:thumb)) if post.image?),post %>
-      </p>
-
-      <p>
-        <%= post.description %>
-      </p>
-
+    <p>
+      <%= post.description %>
+    </p>
   <% end %>
 </ul>
-
-
 
 <%= link_to "Add new post", new_post_path %>
