@@ -1,0 +1,30 @@
+<p>
+	<%= link_to "Posts", posts_path%>
+</p>
+
+<div>
+	<%= image_tag(current_user.image_url(:thumb)) if current_user.image?%>
+</div>
+
+<p>
+	<strong>
+   	<%= current_user.name%>
+	</strong>
+</p>
+
+<p>
+	<%= current_user.about%>
+</p>
+
+<strong>
+	<%= link_to "Edit Profile", edit_user_path%>
+	<% if user_signed_in? %>
+		<%= link_to "Add new post", new_post_path %>
+	<%end%>
+</strong>
+
+<p>
+	<% current_user.posts.each do |user| %>
+			<%= image_tag(user.image_url(:thumb)) if user.image?%>
+	<%end%>
+</p>
