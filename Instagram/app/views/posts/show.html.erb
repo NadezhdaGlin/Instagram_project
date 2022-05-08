@@ -19,7 +19,8 @@
 	<% @post.comments.each do |comment| %>
 		<li>
 			<p>
-				<strong> Commenter </strong>
+				<%= image_tag(comment.user.image_url(:thumb)) if comment.user.image?%>
+				<strong> <%= comment.user.email %> </strong>
 				<%= comment.body %>
 			</p>
 		</li>
