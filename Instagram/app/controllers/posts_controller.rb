@@ -14,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params.merge(user: current_user))
+    @post = Post.new(post_params)
 
     if @post.save
       redirect_to @post
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
 
-    if @post.update(post_params.merge(user: current_user))
+    if @post.update(post_params)
       redirect_to @post
     else
       render :edit, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
 
   private
     def post_params
-      params.require(:post).permit(:description, :image)
+      params.require(:post).permit(:description, :image).merge(user: current_user)
     end
 end
 
