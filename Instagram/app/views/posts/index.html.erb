@@ -6,20 +6,26 @@
         <%= link_to "SIGN UP", new_user_registration_path%>
     </p>
 <% end %>
+
+<% if user_signed_in? %>
+  <p> <%= link_to "Profile", current_user %></p>
+<%end%>
+
 <h1>Posts</h1>
-
-
 <ul>
   <% @posts.each do |post| %>
     <p>
       <%= link_to (image_tag(post.image_url(:thumb)) if post.image?),post %>
     </p>
 
-    <p>
+    <p><strong>
+      <%= post.user.name %>
+    </strong>
       <%= post.description %>
     </p>
   <% end %>
 </ul>
 
-
-<%= link_to "Add new post", new_post_path %>
+<% if user_signed_in? %>
+  <%= link_to "Add new post", new_post_path %>
+<%end%>
