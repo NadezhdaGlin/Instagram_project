@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!
 
   def index
     @posts = Post.all
@@ -39,14 +39,14 @@ class PostsController < ApplicationController
   
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
+    @post.destroy if current_user == @post.user
 
     redirect_to root_path
   end
 
   private
+
     def post_params
       params.require(:post).permit(:description, :image).merge(user: current_user)
     end
 end
-
