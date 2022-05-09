@@ -1,14 +1,21 @@
-<p><%= @post.description %></p>
 <p><%= image_tag(@post.image_url(:thumb)) if @post.image? %></p>
-
 <p>
-	<%= link_to "Edit post", edit_post_path(@post) %>
+	<strong> <%= @post.user.email %> </strong>
+	<%= @post.description %>
 </p>
 
+<% if current_user == @post.user %>
+	<p>
+		<%= link_to "Edit post", edit_post_path(@post) %>
+	</p>
+<% end %>
+
 <li>
-	<p>	
-		<%= button_to "Destroy", post_path(@post), method: :delete,
-			data: {confirm: "are you sure?" }%>
+	<p>
+		<% if current_user == @post.user %>	
+			<%= button_to "Destroy", post_path(@post), method: :delete,
+				data: {confirm: "are you sure?" }%>
+		<% end %>
 	</p>
 </li>
 
@@ -25,10 +32,12 @@
 			</p>
 		</li>
 
-		<p>	
-			<%= button_to "Destroy comment",[comment.post, comment], method: :delete,
-				data: {confirm: "are you sure?" }%>
-		</p>
+		<% if current_user == @post.user %>
+			<p>	
+				<%= button_to "Destroy comment",[comment.post, comment], method: :delete,
+					data: {confirm: "are you sure?" }%>
+			</p>
+		<% end %>
 	<% end %>
 </ul>
 
