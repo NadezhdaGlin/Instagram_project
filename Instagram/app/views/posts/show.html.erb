@@ -4,6 +4,10 @@
 	<%= @post.description %>
 </p>
 
+<%= @post.likes.count %>
+
+<%= button_to "Like", likes_path, method: :post %>
+
 <% if current_user == @post.user %>
 	<p>
 		<%= link_to "Edit post", edit_post_path(@post) %>
