@@ -3,42 +3,36 @@
 </p>
 
 <div>
+	<%= image_tag(@user.image_url(:thumb)) if current_user.image?%>
 	<strong>
-		<%= image_tag(current_user.image_url(:thumb)) if current_user.image?%>
-
 		<% @user ||= current_user %>
 		<%= link_to "Following #{@user.following.count}", following_user_path(@user)%> 
 		<%= link_to "Followers #{@user.followers.count}", followers_user_path(@user)%>
-		Posts <%= current_user.posts.count%>
+		Posts <%= @user.posts.count%>
 	</strong>
 </div>
 
 <p>
 	<strong>
-   	<%= current_user.name%>
+   	<%= @user.name%>
 	</strong>
 </p>
 
 <p>
-	<%= current_user.about%>
+	<%= @user.about%>
 </p>
 
 <strong>
-	<%= link_to "Edit Profile", edit_user_path%>
-	<% if user_signed_in? %>
+	<% if user_signed_in? && @user == current_user%>
+		<%= link_to "Edit Profile", edit_user_path%>
 		<%= link_to "Add new post", new_post_path %>
 	<%end%>
 </strong>
 
 <p>
-	<% current_user.posts.each do |user| %>
+	<% @user.posts.each do |user| %>
 			<%= image_tag(user.image_url(:thumb)) if user.image?%>
 	<%end%>
 </p>
+<%= render 'follow_form' if user_signed_in? && @user!=current_user %>
 
-<%= render 'follow_form' if user_signed_in?%>
-
-<%= form_for(current_user.active_relationships.build) do |f| %>
-  <div><%= hidden_field_tag :followed_id, @user.id %></div>
-  <%= f.submit "Follow" %>
-<% end %>
