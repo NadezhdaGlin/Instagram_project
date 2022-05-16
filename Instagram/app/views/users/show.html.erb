@@ -5,12 +5,14 @@
 <div>
 	<%= image_tag(@user.image_url(:thumb)) if current_user.image?%>
 	<strong>
-		<% @user ||= current_user %>
-		<%= link_to "Following #{@user.following.count}", following_user_path(@user)%> 
-		<%= link_to "Followers #{@user.followers.count}", followers_user_path(@user)%>
+	
+		<%= "Following #{@user.following.count}"%> 
+		<%= "Followers #{@user.followers.count}"%>
 		Posts <%= @user.posts.count%>
 	</strong>
 </div>
+
+<p><%= render 'follow_form' if user_signed_in? && @user!=current_user %></p>
 
 <p>
 	<strong>
@@ -34,5 +36,4 @@
 			<%= image_tag(user.image_url(:thumb)) if user.image?%>
 	<%end%>
 </p>
-<%= render 'follow_form' if user_signed_in? && @user!=current_user %>
 
