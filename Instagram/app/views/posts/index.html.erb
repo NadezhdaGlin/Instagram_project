@@ -8,12 +8,15 @@
 <% end %>
 
 <% if user_signed_in? %>
+<strong>
   <p> <%= link_to "Profile", current_user %>
       <%= link_to "Users", users_path%>
   </p>
+      <%= link_to "Add new post", new_post_path %>
+</strong>
 <%end%>
 
-<h1>Posts</h1>
+<h1>Posts/NEWS</h1>
 <ul>
   <% @posts.each do |post| %>
     <p>
@@ -27,7 +30,3 @@
     </p>
   <% end %>
 </ul>
-
-<% if user_signed_in? %>
-  <%= link_to "Add new post", new_post_path %>
-<%end%>
