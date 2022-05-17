@@ -6,7 +6,11 @@
 
 <%= @post.likes.count %>
 
-<%= button_to "Like", likes_path, method: :post %>
+<% if @post.likes.where(user: current_user).present? %>
+	<%= button_to 'Dislike',like_path(@post), method: :delete%>
+<%else%>
+	<%= button_to 'Like',likes_path(@post), method: :post%>
+<%end%>
 
 <% if current_user == @post.user %>
 	<p>
@@ -58,4 +62,4 @@
 	</p>
 <% end %>
 
-<%= link_to "Back", posts_path%>
+<%= link_to "Back", @post.user%>
