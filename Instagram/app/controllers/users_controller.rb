@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	def index
+  def index
 		@users = User.where.not(id: current_user)
 	end
 
@@ -17,11 +17,11 @@ class UsersController < ApplicationController
 			render :edit, status: :unprocessable_entity
 		end
 	end
-
+	
 	private
+
 		def user_params
 			params.require(:user).permit(:name, :about, :image)
 		end
-
-
 end
+
