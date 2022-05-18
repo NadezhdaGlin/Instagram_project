@@ -12,4 +12,3 @@ def destroy
     redirect_to @user
   end
 end
-

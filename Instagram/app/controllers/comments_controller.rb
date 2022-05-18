@@ -17,4 +17,3 @@ class CommentsController < ApplicationController
 			params.require(:comment).permit(:commenter, :body).merge(user: current_user)
 		end
 end
-
