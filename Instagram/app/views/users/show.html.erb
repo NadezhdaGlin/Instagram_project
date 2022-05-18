@@ -1,0 +1,40 @@
+<strong>
+	<h3>
+		<%= link_to "Posts", posts_path%>
+	</h3>
+</strong>
+
+<div>
+	<%= image_tag(@user.image_url(:thumb)) if current_user.image?%>
+	<strong>
+		<%= "Following #{@user.following.count}"%> 
+		<%= "Followers #{@user.followers.count}"%>
+		Posts <%= @user.posts.count%>
+	</strong>
+</div>
+
+<p><%= render 'follow_form' if user_signed_in? && @user!=current_user %></p>
+
+<p>
+	<strong>
+   	<%= @user.name%>
+	</strong>
+</p>
+
+<p>
+	<%= @user.about%>
+</p>
+
+<strong>
+	<% if user_signed_in? && @user == current_user%>
+		<%= link_to "Edit Profile", edit_user_path%>
+		<%= link_to "Add new post", new_post_path %>
+	<%end%>
+</strong>
+
+<p>
+	<% @user.posts.each do |post| %>
+			<%= link_to (image_tag(post.image_url(:thumb)) if post.image?), post %>
+	<%end%>
+</p>
+

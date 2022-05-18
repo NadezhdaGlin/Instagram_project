@@ -1,0 +1,13 @@
+<h1>USERS INSAGRAM</h1>
+<% @users.each do |user| %>
+<p>
+	<%= image_tag(user.image_url(:thumb)) if user.image? %>
+	<%= link_to user.name, user%>
+</p>
+<%end%>
+
+<strong>
+	<h3>
+		<%= link_to "BACK", posts_path%>
+	</h3>
+</strong>
