@@ -1,6 +1,6 @@
 <p><%= image_tag(@post.image_url(:thumb)) if @post.image? %></p>
 <p>
-	<strong> <%= @post.user.email %> </strong>
+	<strong> <%= @post.user.name %> </strong>
 	<%= @post.description %>
 </p>
 
@@ -13,53 +13,56 @@
 <%end%>
 
 <% if current_user == @post.user %>
-	<p>
-		<%= link_to "Edit post", edit_post_path(@post) %>
-	</p>
+	<strong>
+		<h3> <%= link_to "Edit post", edit_post_path(@post) %> </h3>
+	</strong>
 <% end %>
 
 <li>
 	<p>
 		<% if current_user == @post.user %>	
-			<%= button_to "Destroy", post_path(@post), method: :delete,
-				data: {confirm: "are you sure?" }%>
+			<%= button_to "DESTROY POST", post_path(@post), method: :delete%>
 		<% end %>
 	</p>
 </li>
 
 
-<h1> Comments </h1>
+<h4> Comments </h4>
 
-<ul>
+
 	<% @post.comments.each do |comment| %>
 		<li>
 			<p>
 				<%= image_tag(comment.user.image_url(:thumb)) if comment.user.image?%>
-				<strong> <%= comment.user.email %> </strong>
+				<strong> <%= comment.user.name %> </strong>
 				<%= comment.body %>
 			</p>
 		</li>
 
 		<% if current_user == @post.user %>
 			<p>	
-				<%= button_to "Destroy comment",[comment.post, comment], method: :delete,
-					data: {confirm: "are you sure?" }%>
+				<%= button_to "DESTROY COMMENT",[comment.post, comment], method: :delete%>
 			</p>
 		<% end %>
 	<% end %>
-</ul>
 
 
-<h1> Leave a comment</h1>
+<h4> Leave a comment</h4>
 
 <%= form_with model: [@post, @post.comments.build] do |form| %>
-	<p>
-		<%= form.text_area :body %>
-	</p>
 
-	<p>
-		<%= form.submit %>
-	</p>
+  <p>	<%= form.text_area :body %>	</p>
+
+	<p> <%= form.submit "CREATE COMMENT"%> </p>
 <% end %>
 
-<%= link_to "Back", @post.user%>
+<strong>
+	<h3>
+		<%if request.referer && URI(request.referer).path == '/posts'%>
+			<%= link_to "BACK", posts_path%>
+		<%else%>
+			<%= link_to "BACK", @post.user%>
+		<%end%>
+	</h3>
+</strong>
+

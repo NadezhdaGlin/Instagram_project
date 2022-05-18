@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :users
-  root "posts#index"
+  root 'posts#index'
 
   resources :users
   resources :posts do
@@ -8,5 +10,4 @@ Rails.application.routes.draw do
   end
   resources :likes
   resources :relationships
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   before_action :authenticate_user!
 
@@ -36,7 +38,7 @@ class PostsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     @post = Post.find(params[:id])
     @post.destroy if current_user == @post.user
@@ -46,8 +48,7 @@ class PostsController < ApplicationController
 
   private
 
-    def post_params
-      params.require(:post).permit(:description, :image).merge(user: current_user)
-    end
+  def post_params
+    params.require(:post).permit(:description, :image).merge(user: current_user)
+  end
 end
-

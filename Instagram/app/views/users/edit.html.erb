@@ -1,36 +1,38 @@
 <h1> Edit Profile </h1>
 
 <div>
-	<%= image_tag(current_user.image_url(:thumb)) if current_user.image?%>
+  <%= image_tag(current_user.image_url(:thumb)) if current_user.image?%>
 </div>
 
 <%= form_with model: current_user do |form|%>
 <div>
-	<%= form.file_field :image%>
+  <%= form.file_field :image%>
 </div>
 
-
 <div>
-	<strong>
-		<%= form.label "Name" %> 
-		<%= form.text_area :name%>	
+  <strong>
+    <%= form.label "Name" %> 
+	<%= form.text_area :name%>	
 	</strong>
 </div>
 
 <div>
-	<p>
-		<strong>
-			<%= form.label "Bio" %> 
-			<%= form.text_area :about%>	
-		</strong>
-	</p>
+  <p>
+    <strong>
+	  <%= form.label "Bio" %> 
+	  <%= form.text_area :about%>	
+	</strong>
+  </p>
 </div>
 
 <div>
-    <%= form.submit %>
+  <%= form.submit "UPDATE USER"%>
 </div>
-
 <% end %>
-<p>
-	<%= link_to "Back", current_user%>
-</p>
+
+<strong>
+  <h3>
+    <%= link_to "BACK", current_user%>
+  </h3>
+</strong>
+

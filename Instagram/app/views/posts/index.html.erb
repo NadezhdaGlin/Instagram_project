@@ -9,9 +9,9 @@
 
 <% if user_signed_in? %>
 <strong>
-  <p> <%= link_to "Profile", current_user %>
+  <h3> <%= link_to "Profile", current_user %>
       <%= link_to "Users", users_path%>
-  </p>
+  </h3>
       <%= link_to "Add new post", new_post_path %>
 </strong>
 <%end%>
@@ -23,10 +23,10 @@
       <%= link_to (image_tag(post.image_url(:thumb)) if post.image?),post %>
     </p>
 
-    <p><strong>
-      <%= post.user.name %>
-    </strong>
+    <p>
+      <strong> <%= post.user.name %> </strong>
       <%= post.description %>
     </p>
   <% end %>
 </ul>
+

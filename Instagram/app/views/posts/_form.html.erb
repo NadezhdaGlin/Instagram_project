@@ -1,29 +1,26 @@
 <%= form_with model: post do |form| %>
 
-	<div>
-		<%= form.file_field :image %>
-	</div>
+<div>
+	<%= form.file_field :image %>
+</div>
 
-	<div>
-		<p>
-			<%= form.label "add description"%>
-		</p>
+<div>
+  <strong><p>	<%= form.label "add description"%> </p><strong>
 
-		<p>
-			<%= form.text_area :description%>
-		</p>
+	<p>	<%= form.text_area :description%>	</p>
 
-		<% post.errors.full_messages_for(:description).each do |message| %>
-			<div><%= message %></div>
-		<% end %>
-	</div>
+	<% post.errors.full_messages_for(:description).each do |message| %>
+		<div><%= message %></div>
+	<% end %>
+</div>
 
-	<div>
-    <%= form.submit %>
-  </div>
+<div>	<%= form.submit "CREATE POST"%></div>
 
-<p>
-  <%= link_to "Back", post%>	
-</p>
+<strong>
+	<h3>
+	  <%= link_to "BACK", post%>	
+	</h3>
+</strong>
 
 <% end %>
+

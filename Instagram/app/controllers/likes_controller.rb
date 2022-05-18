@@ -1,5 +1,6 @@
-class LikesController < ApplicationController
+# frozen_string_literal: true
 
+class LikesController < ApplicationController
   def create
     @post = Post.find(params[:format])
     @like = @post.likes.create(user: current_user, post: @post)
