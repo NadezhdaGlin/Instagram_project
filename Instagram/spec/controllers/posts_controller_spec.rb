@@ -12,28 +12,75 @@ RSpec.describe PostsController, :type => :controller do
 		let!(:post2) {Post.create!(description: "for test2", image: image, user: user)}
 		let!(:post3) {Post.create!(description: "for test3", image: image, user: user)}
 			it "returns all posts" do
-			# binding.pry
-			get :index
-			expect(assigns(:posts)).to match_array([post1, post2, post3])
+				get :index
+				expect(assigns(:posts)).to match_array([post1, post2, post3])
 		end
 	end
 
 	describe "#show"do
 	let!(:post) {Post.create!(description: "for test", image: image, user: user)}
+
 		it "returns post" do
 			get :show, params: {id: post}
+			expect(assigns(:post)).to eq(post)
 		end
 	end
 
-	describe "#new" do
-		it "assigns post" do
-			get :new 
+	describe "#create" do
+		let!(:post_params) { 
+			{ post: { description: "something for create", image: image, user: user } } 
+		}
+
+		let!(:another_post_params) { 
+			{ post: { description: "", image: image, user: user } } 
+		}
+
+		subject(:create_post) {post :create, params: post_params}
+		subject(:create_post_without_save) { post :create, params: another_post_params}
+
+		it "create post" do
+			expect {create_post}.to change(Post, :count).by(1) 
+		end
+
+		it "redirect to post page" do
+			expect(create_post).to redirect_to(post_path(Post.last))
+		end
+
+		it "when the post is not saved" do
+			expect{create_post_without_save}.not_to change(Post,:count)
+		end
+
+		it "redirect to form" do
+			expect(create_post_without_save).to redirect_to(new_post_path)
 		end
 	end
 
-	describe "create" do
-			it "create post" do
-				post :create, 
-			end
+	describe "#update" do
+		let!(:post1) {Post.create!(description: "old post", image: image, user: user)}
+
+		let!(:post_params){
+			{ post: {description: "updated post", image: image, user: user}, id: post1}
+		}
+
+		subject(:update_post) {patch :update, params: post_params}
+
+		it "update post" do
+			expect {update_post}.to(change{post1.reload.description}.to("updated post"))
+		end	
 	end
+
+	describe "#destroy" do
+		let!(:post) {Post.create!(description: "for destroy", image: image, user: user)}
+		subject(:destroy_post) {delete :destroy, params: {id: post}}
+
+		 it "destroy post" do
+		 	 expect {destroy_post}.to change(Post, :count).by(-1)
+		 end
+
+		 it "redirect to root path" do
+		 	 expect(destroy_post).to redirect_to(root_path)
+		 end
+
+	end
+
 end
