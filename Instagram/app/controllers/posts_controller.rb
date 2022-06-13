@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PostsController < ApplicationController
-  before_action :authenticate_user!
-
   def index
     @posts = Post.all
   end
@@ -40,6 +38,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    # binding.pry
     @post = Post.find(params[:id])
     @post.destroy if current_user == @post.user
 
