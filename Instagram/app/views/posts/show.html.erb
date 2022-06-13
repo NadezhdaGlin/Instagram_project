@@ -39,7 +39,7 @@
 			</p>
 		</li>
 
-		<% if current_user == @post.user %>
+		<% if current_user == comment.user%>
 			<p>	
 				<%= button_to "DESTROY COMMENT",[comment.post, comment], method: :delete%>
 			</p>
@@ -58,7 +58,7 @@
 
 <strong>
 	<h3>
-		<%if request.referer && URI(request.referer).path == '/posts'%>
+		<%if request.referer.include?('/posts')%>
 			<%= link_to "BACK", posts_path%>
 		<%else%>
 			<%= link_to "BACK", @post.user%>
