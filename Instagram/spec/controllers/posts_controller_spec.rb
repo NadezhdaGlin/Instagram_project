@@ -65,7 +65,7 @@ RSpec.describe PostsController, :type => :controller do
 		}
 
 		subject(:create_post) {post :create, params: post_params}
-		subject(:create_post_without_save) {post :create, params: another_post_params}
+		subject(:create_post_with_incorrect_params) {post :create, params: another_post_params}
 
 			it "create post" do
 				expect{create_post}.to change(Post, :count).by(1) 
@@ -76,12 +76,14 @@ RSpec.describe PostsController, :type => :controller do
 			end
 
 			it "when the post is not saved" do
-				expect{create_post_without_save}.not_to change(Post,:count)
+				expect{create_post_with_incorrect_params}.not_to change(Post,:count)
 			end
 
-			it "redirect to form" do
-				expect(create_post_without_save).to redirect_to(new_post_path)
+			it "response 422" do
+				create_post_with_incorrect_params
+				expect(response).to have_http_status(422)
 			end
+
 	end
 
 	describe "#update" do

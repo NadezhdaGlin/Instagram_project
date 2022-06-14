@@ -9,11 +9,11 @@ RSpec.describe CommentsController, :type => :controller do
 
 	describe "#create" do
 		let!(:comment_params){
-			{comment: {body:"comment for test", user: user}, post_id: post1}
+			{comment: {body:"comment for test", user: user}, post_id: post1.id}
 		}
 
 		let!(:another_comment_params){
-			{comment: {body:"", user: user}, post_id: post1}
+			{comment: {body:"", user: user}, post_id: post1.id}
 		}
 
 		subject(:create_comment) {post :create, params: comment_params}
