@@ -17,7 +17,11 @@ RSpec.describe PostsController, :type => :controller do
 			it "returns all posts" do
 				index
 				expect(assigns(:posts)).to match_array([post1, post2, post3])
-		end
+			end
+
+			it "response 200" do
+				expect(index).to have_http_status(200)
+			end
 
 	context "when user is unauthorized" do
 		before { sign_out user }
@@ -28,6 +32,10 @@ RSpec.describe PostsController, :type => :controller do
 
 			it "to redirects to the login page" do
 				expect(index).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				expect(index).to have_http_status(302)
 			end
 		end
 	end
@@ -41,6 +49,10 @@ RSpec.describe PostsController, :type => :controller do
 			expect(assigns(:post)).to eq(post)
 		end
 
+		it "response 200" do
+				expect(show).to have_http_status(200)
+		end
+
 		context "when user is unauthorized" do
 		before { sign_out user }
 
@@ -49,8 +61,12 @@ RSpec.describe PostsController, :type => :controller do
 				expect(assigns(:post)).to eq(nil)
 			end
 
-			it "to redirects to the login page" do
+			it "redirects to the login page" do
 				expect(show).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				expect(show).to have_http_status(302)
 			end
 		end
 	end
@@ -75,6 +91,10 @@ RSpec.describe PostsController, :type => :controller do
 				expect(create_post).to redirect_to(post_path(Post.last))
 			end
 
+			it "response 302" do
+				expect(create_post).to have_http_status(302)
+			end
+
 			it "when the post is not saved" do
 				expect{create_post_with_incorrect_params}.not_to change(Post,:count)
 			end
@@ -84,6 +104,21 @@ RSpec.describe PostsController, :type => :controller do
 				expect(response).to have_http_status(422)
 			end
 
+		context "when user is unauthorized" do
+		before { sign_out user }
+			it "does not create post" do
+				expect{create_post}.not_to change(Post, :count)
+			end
+
+			it "redirects to the login page" do
+				expect(create_post).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				create_post
+				expect(response).to have_http_status(302)
+			end
+		end
 	end
 
 	describe "#update" do
@@ -97,7 +132,27 @@ RSpec.describe PostsController, :type => :controller do
 
 		it "update post" do
 			expect{update_post}.to(change{post1.reload.description}.to("updated post"))
-		end	
+		end
+
+		it "response 302" do
+			expect(update_post).to have_http_status(302)
+		end
+
+		context "when user is unauthorized" do
+		before { sign_out user }
+			it "does not update post" do
+				expect{update_post}.not_to change(post1.reload, :description)
+			end
+
+			it "redirects to the login page" do
+				expect(update_post).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				update_post
+				expect(response).to have_http_status(302)
+			end
+		end
 	end
 
 	describe "#destroy" do
@@ -108,9 +163,28 @@ RSpec.describe PostsController, :type => :controller do
 		 	 expect{destroy_post}.to change(Post, :count).by(-1)
 		 end
 
+		 it "response 302" do
+				expect(destroy_post).to have_http_status(302)
+			end
+
 		 it "redirect to root path" do
 		 	 expect(destroy_post).to redirect_to(root_path)
 		 end
-	end
 
+		 context "when user is unauthorized" do
+		before { sign_out user }
+			it "does not destroy post" do
+				expect{destroy_post}.not_to change(Post, :count)
+			end
+
+			it "redirects to the login page" do
+				expect(destroy_post).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				destroy_post
+				expect(destroy_post).to have_http_status(302)
+			end
+		end
+	end
 end

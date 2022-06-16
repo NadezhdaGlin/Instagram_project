@@ -29,6 +29,25 @@ RSpec.describe CommentsController, :type => :controller do
 		it "when the comment is not created" do
 			expect{create_comment}.to change(Comment, :count)
 		end
+
+		it "response 302" do
+			expect(create_comment).to have_http_status(302)
+		end
+
+		context "when user is unauthorized" do
+		before { sign_out user }
+			it "does not create comment" do
+				expect{create_comment}.not_to change(Comment, :count)
+			end
+
+			it "redirects to the login page" do
+				expect(create_comment).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				expect(create_comment).to have_http_status(302)
+			end
+		end
 	end
 
 	describe "#destroy" do
@@ -41,6 +60,25 @@ RSpec.describe CommentsController, :type => :controller do
 
 		it "redirect to post" do
 			expect(destroy_comment).to redirect_to(post_path(Post.last))
+		end
+
+		it "response 302" do
+			expect(destroy_comment).to have_http_status(302)
+		end
+
+		context "when user is unauthorized" do
+		before { sign_out user }
+			it "does not destroy comment" do
+				expect{destroy_comment}.not_to change(Comment, :count)
+			end
+
+			it "redirects to the login page" do
+				expect(destroy_comment).to redirect_to(new_user_session_path)
+			end
+
+			it "response 302" do
+				expect(destroy_comment).to have_http_status(302)
+			end
 		end
 	end
 

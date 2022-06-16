@@ -17,6 +17,22 @@ RSpec.describe LikesController, :type => :controller do
 		it "redirect to post" do
 			expect(create_like). to redirect_to(post_path(Post.last))
 		end
+
+		it "response 302" do
+				expect(create_like).to have_http_status(302)
+		end
+
+		context "when user is unauthorized" do
+		before { sign_out user }
+
+			it "does not create like" do
+				expect{create_like}.not_to change(Like, :count)
+			end
+
+			it "response 401" do
+				expect(create_like).to have_http_status(401)
+			end
+		end		
 	end
 
 	describe "#destroy" do
@@ -30,5 +46,21 @@ RSpec.describe LikesController, :type => :controller do
 		it "redirect to post" do
 			expect(destroy_like). to redirect_to(post_path(Post.last))
 		end
+
+		it "response 302" do
+			expect(destroy_like).to have_http_status(302)
+		end
+
+		context "when user is unauthorized" do
+		before { sign_out user }
+
+			it "does not destroy like" do
+				expect{destroy_like}.not_to change(Like, :count)
+			end
+			
+			it "response 302" do
+				expect(destroy_like).to have_http_status(302)
+			end
+		end		
 	end
 end
